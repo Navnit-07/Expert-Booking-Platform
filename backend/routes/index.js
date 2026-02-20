@@ -13,7 +13,7 @@ router.get("/health", (_req, res) => {
     });
 });
 
-// Mount feature routes below as the application grows
-// Example: router.use("/users", require("./userRoutes"));
+// Mount feature routes
+router.use("/experts", require("./expertRoutes"));
 
 module.exports = router;
