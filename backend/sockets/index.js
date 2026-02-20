@@ -1,37 +1,39 @@
 const { Server } = require("socket.io");
+const { registerBookingHandlers } = require("./bookingHandler");
 
 let io;
+let connectedClients = 0;
 
-/**
- * Initialise Socket.io on the given HTTP server.
- * @param {import("http").Server} httpServer
- * @returns {import("socket.io").Server}
- */
 const initSocket = (httpServer) => {
     io = new Server(httpServer, {
         cors: {
-            origin: "*", // tighten this in production
+            origin: "*",
             methods: ["GET", "POST"],
         },
+        pingTimeout: 60000,
+        pingInterval: 25000,
     });
 
     io.on("connection", (socket) => {
-        console.log(`⚡ Socket connected: ${socket.id}`);
+        connectedClients++;
+        console.log(`Socket connected: ${socket.id} | Total clients: ${connectedClients}`);
 
-        socket.on("disconnect", (reason) => {
-            console.log(`🔌 Socket disconnected: ${socket.id} — ${reason}`);
+        registerBookingHandlers(io, socket);
+
+        socket.on("error", (err) => {
+            console.error(`Socket error [${socket.id}]:`, err.message);
         });
 
-        // Register additional event handlers here as needed
+        socket.on("disconnect", (reason) => {
+            connectedClients--;
+            console.log(`🔌 Socket disconnected: ${socket.id} | Reason: ${reason} | Remaining: ${connectedClients}`);
+        });
     });
 
+    console.log("Socket.io initialised");
     return io;
 };
 
-/**
- * Retrieve the current Socket.io instance.
- * Throws if called before initSocket().
- */
 const getIO = () => {
     if (!io) {
         throw new Error("Socket.io has not been initialised. Call initSocket() first.");
@@ -39,4 +41,6 @@ const getIO = () => {
     return io;
 };
 
-module.exports = { initSocket, getIO };
+const getConnectedClients = () => connectedClients;
+
+module.exports = { initSocket, getIO, getConnectedClients };

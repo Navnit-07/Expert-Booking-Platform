@@ -1,6 +1,7 @@
 const Booking = require("../models/Booking");
 const Expert = require("../models/Expert");
 const { getIO } = require("../sockets");
+const { emitSlotBooked } = require("../sockets/bookingHandler");
 
 const createBooking = async (req, res, next) => {
     try {
@@ -42,12 +43,7 @@ const createBooking = async (req, res, next) => {
             notes,
         });
 
-        const io = getIO();
-        io.emit("slotBooked", {
-            expertId,
-            date: bookingDate,
-            timeSlot,
-        });
+        emitSlotBooked(getIO(), { expertId, date: bookingDate, timeSlot });
 
         res.status(201).json({
             success: true,
