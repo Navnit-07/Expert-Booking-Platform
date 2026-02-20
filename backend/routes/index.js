@@ -15,5 +15,6 @@ router.get("/health", (_req, res) => {
 
 // Mount feature routes
 router.use("/experts", require("./expertRoutes"));
+router.use("/bookings", require("./bookingRoutes"));
 
 module.exports = router;
