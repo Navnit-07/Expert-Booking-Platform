@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const path = require("path");
 const { notFound, errorHandler } = require("./middlewares/errorHandler");
 const apiRoutes = require("./routes");
 
@@ -22,9 +23,21 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", apiRoutes);
 
+// --------------- Production Build ---------------
+
+if (process.env.NODE_ENV === "production") {
+    const frontendPath = path.join(__dirname, "../frontend/dist");
+    app.use(express.static(frontendPath));
+
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(frontendPath, "index.html"));
+    });
+}
+
 // --------------- Error Handling ---------------
 
 app.use(notFound);
 app.use(errorHandler);
 
 module.exports = app;
+
