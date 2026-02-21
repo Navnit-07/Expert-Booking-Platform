@@ -7,7 +7,9 @@ const API = axios.create({
 });
 
 // ── Expert endpoints ──
-export const getExperts = () => API.get("/experts");
+export const getExperts = (params = {}) =>
+    API.get("/experts", { params });
+
 export const getExpertById = (id) => API.get(`/experts/${id}`);
 
 // ── Booking endpoints ──
