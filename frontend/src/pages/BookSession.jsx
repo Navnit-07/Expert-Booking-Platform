@@ -174,39 +174,38 @@ const BookSession = () => {
     }
 
     const inputClasses = (hasError) => `
-        w-full rounded-2xl border bg-surface-overlay py-4 px-5 text-sm font-medium text-white outline-none transition-all duration-200 
-        placeholder:text-text-muted
+        w-full rounded-xl border bg-neutral-900 py-3 px-4 text-sm text-white outline-none transition-all duration-200 
+        placeholder:text-neutral-600
         ${hasError
-            ? "border-red-500/50 focus:border-red-500 ring-1 ring-red-500/20"
-            : "border-border hover:border-border-hover focus:border-white focus:ring-1 focus:ring-white/10"}
+            ? "border-red-500 focus:ring-1 focus:ring-red-500/20"
+            : "border-neutral-800 focus:border-white"}
         disabled:opacity-50 disabled:cursor-not-allowed
     `;
 
-    const labelClasses = "mb-2.5 block text-xs font-black uppercase tracking-widest text-text-secondary";
+    const labelClasses = "mb-2 block text-xs font-bold uppercase tracking-widest text-neutral-400";
 
     return (
-        <section className="mx-auto max-w-3xl px-6 py-16 animate-fade-in">
+        <section className="py-16 animate-fade-in w-[100vw]">
             <div className="mb-12 text-center">
-                <h1 className="text-5xl font-black tracking-tighter text-white sm:text-6xl">
-                    BOOK A SESSION
+                <h1 className="text-5xl font-bold tracking-tight text-white mt">
+                    Book A Session
                 </h1>
-                <p className="mt-4 text-lg font-medium text-text-secondary">
+                <p className="mt-2 text-lg text-neutral-400 text-center mt">
                     Secure your time with industry-leading experts.
                 </p>
             </div>
 
-            {error && (
-                <div className="mb-8 flex items-center gap-4 rounded-2xl border border-red-500/30 bg-red-500/10 p-5 text-sm font-bold text-red-400 animate-[fade-in_0.3s_ease-out]">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-red-500 text-[10px] text-white">!</span>
-                    {error}
-                </div>
-            )}
+            <div className="mx-auto w-full p flex justify-center item-center">
+                {error && (
+                    <div className="mb-8 flex items-center gap-4 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm font-bold text-red-400">
+                        {error}
+                    </div>
+                )}
 
-            <form onSubmit={handleSubmit} className="card p-8 shadow-2xl space-y-8 sm:p-12">
-                <div className="grid gap-8">
+                <form onSubmit={handleSubmit} className="space-y-6 mt mb">
                     {/* Expert Selection */}
-                    <div className="space-y-2">
-                        <label htmlFor="expert-select" className={labelClasses}>CHOOSE EXPERT</label>
+                    <div className="space-y-2 mb mt">
+                        <label htmlFor="expert-select" className={labelClasses}>Choose Expert</label>
                         <select
                             id="expert-select"
                             name="expert"
@@ -221,13 +220,13 @@ const BookSession = () => {
                                 </option>
                             ))}
                         </select>
-                        {validationErrors.expert && <p className="text-[10px] font-bold text-red-500">{validationErrors.expert}</p>}
+                        {validationErrors.expert && <p className="text-xs text-red-500">{validationErrors.expert}</p>}
                     </div>
 
                     {/* Client Information */}
-                    <div className="grid gap-6 sm:grid-cols-2">
+                    <div className="grid gap-6 md:grid-cols-2 mb mt">
                         <div className="space-y-2">
-                            <label htmlFor="name-input" className={labelClasses}>FULL NAME</label>
+                            <label htmlFor="name-input" className={labelClasses}>Full Name</label>
                             <input
                                 id="name-input"
                                 name="name"
@@ -237,10 +236,10 @@ const BookSession = () => {
                                 onChange={handleChange}
                                 className={inputClasses(validationErrors.name)}
                             />
-                            {validationErrors.name && <p className="text-[10px] font-bold text-red-500">{validationErrors.name}</p>}
+                            {validationErrors.name && <p className="text-xs text-red-500">{validationErrors.name}</p>}
                         </div>
                         <div className="space-y-2">
-                            <label htmlFor="email-input" className={labelClasses}>EMAIL ADDRESS</label>
+                            <label htmlFor="email-input" className={labelClasses}>Email Address</label>
                             <input
                                 id="email-input"
                                 name="email"
@@ -250,12 +249,12 @@ const BookSession = () => {
                                 onChange={handleChange}
                                 className={inputClasses(validationErrors.email)}
                             />
-                            {validationErrors.email && <p className="text-[10px] font-bold text-red-500">{validationErrors.email}</p>}
+                            {validationErrors.email && <p className="text-xs text-red-500">{validationErrors.email}</p>}
                         </div>
                     </div>
 
-                    <div className="space-y-2">
-                        <label htmlFor="phone-input" className={labelClasses}>PHONE NUMBER</label>
+                    <div className="space-y-2 mb mt">
+                        <label htmlFor="phone-input" className={labelClasses}>Phone Number</label>
                         <input
                             id="phone-input"
                             name="phone"
@@ -265,14 +264,14 @@ const BookSession = () => {
                             onChange={handleChange}
                             className={inputClasses(validationErrors.phone)}
                         />
-                        {validationErrors.phone && <p className="text-[10px] font-bold text-red-500">{validationErrors.phone}</p>}
+                        {validationErrors.phone && <p className="text-xs text-red-500">{validationErrors.phone}</p>}
                     </div>
 
                     {/* Scheduling Section */}
                     {selectedExpert && (
-                        <div className="grid gap-6 rounded-3xl bg-white/[0.02] p-6 border border-white/[0.05] sm:grid-cols-2">
+                        <div className="grid gap-6 md:grid-cols-2">
                             <div className="space-y-2">
-                                <label htmlFor="date-select" className={labelClasses}>AVAILABLE DATES</label>
+                                <label htmlFor="date-select" className={labelClasses}>Available Dates</label>
                                 <select
                                     id="date-select"
                                     name="date"
@@ -285,10 +284,10 @@ const BookSession = () => {
                                         <option key={d.formatted} value={d.formatted}>{d.display}</option>
                                     ))}
                                 </select>
-                                {validationErrors.date && <p className="text-[10px] font-bold text-red-500">{validationErrors.date}</p>}
+                                {validationErrors.date && <p className="text-xs text-red-500">{validationErrors.date}</p>}
                             </div>
                             <div className="space-y-2">
-                                <label htmlFor="slot-select" className={labelClasses}>TIME SLOTS</label>
+                                <label htmlFor="slot-select" className={labelClasses}>Time Slots</label>
                                 <select
                                     id="slot-select"
                                     name="timeSlot"
@@ -302,50 +301,47 @@ const BookSession = () => {
                                         const isTaken = bookedSlots.includes(`${new Date(form.date).toDateString()}-${s}`);
                                         return (
                                             <option key={s} value={s} disabled={isTaken}>
-                                                {s} {isTaken ? "(Just Booked)" : ""}
+                                                {s} {isTaken ? "(Booked)" : ""}
                                             </option>
                                         )
                                     })}
                                 </select>
-                                {validationErrors.timeSlot && <p className="text-[10px] font-bold text-red-500">{validationErrors.timeSlot}</p>}
-                                {!form.date && <p className="text-[10px] font-bold text-text-muted">Pick a date first</p>}
+                                {validationErrors.timeSlot && <p className="text-xs text-red-500">{validationErrors.timeSlot}</p>}
                             </div>
                         </div>
                     )}
 
                     {/* Additional Notes */}
-                    <div className="space-y-2">
-                        <label htmlFor="notes-input" className={labelClasses}>ADDITIONAL NOTES</label>
+                    <div className="space-y-2 mb mt">
+                        <label htmlFor="notes-input" className={labelClasses}>Additional Notes</label>
                         <textarea
                             id="notes-input"
                             name="notes"
                             rows="4"
-                            placeholder="Tell the expert about your goals or questions..."
+                            placeholder="Tell the expert about your goals..."
                             value={form.notes}
                             onChange={handleChange}
                             className={inputClasses()}
                         />
                     </div>
-                </div>
 
-                {/* Final Actions */}
-                <div className="pt-6">
-                    <button
-                        type="submit"
-                        id="submit-booking"
-                        disabled={submitting}
-                        className="group relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-2xl bg-white py-5 text-lg font-black text-black transition-all hover:scale-[1.01] hover:shadow-[0_20px_40px_rgba(255,255,255,0.1)] active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
-                    >
-                        <span className="relative z-10">{submitting ? "PROCESSING..." : "CONFIRM DEPOSIT & BOOK"}</span>
-                        {!submitting && <span className="relative z-10 text-2xl transition-transform group-hover:translate-x-1">→</span>}
-                        <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-500 group-hover:translate-x-full"></div>
-                    </button>
+                    {/* Final Actions */}
+                    <div className="pt-4">
+                        <button
+                            type="submit"
+                            id="submit-booking"
+                            disabled={submitting}
+                            className="w-full rounded-xl bg-white py-4 text-sm font-bold text-black transition-all hover:bg-neutral-200 disabled:opacity-50"
+                        >
+                            {submitting ? "Processing..." : "Confirm & Book Session"}
+                        </button>
 
-                    <p className="mt-6 text-center text-xs font-bold text-text-muted">
-                        Already have a session? <Link to="/my-bookings" className="text-white hover:underline">Manage your bookings</Link>
-                    </p>
-                </div>
-            </form>
+                        <p className="mt-6 text-center text-sm text-neutral-400">
+                            Already have a session? <Link to="/my-bookings" className="text-white hover:underline">Manage your bookings</Link>
+                        </p>
+                    </div>
+                </form>
+            </div>
         </section>
     );
 };

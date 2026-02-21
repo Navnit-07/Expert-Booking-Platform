@@ -114,48 +114,44 @@ const ExpertListing = () => {
     };
 
     return (
-        <section className="mx-auto max-w-7xl px-6 py-12 animate-fade-in">
-            <div className="mb-12 text-center">
-                <h1 className="mb-3 text-4xl font-extrabold tracking-tight text-white md:text-5xl">
+        <section className="relative w-full py-8 p">
+
+            {/* Heading */}
+            <div className="mb-10 max-w-3xl">
+                <h1 className="text-5xl font-bold tracking-tight text-white ">
                     Find Your Expert
                 </h1>
-                <p className="mx-auto max-w-xl text-lg text-[#888]">
-                    Browse top professionals, check real-time availability, and book
-                    consultations instantly.
+                <p className="mt text-neutral-400 leading-relaxed mb">
+                    Browse top professionals across industries and book consultations in seconds.
                 </p>
             </div>
 
-            <div className="mx-auto mb-10 flex max-w-3xl flex-col gap-3 sm:flex-row sm:gap-4">
-                <div className="relative flex-1">
-                    <svg
-                        className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#555]"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
-                    </svg>
-                    <input
-                        id="search-experts"
-                        type="text"
-                        placeholder="Search experts by name…"
-                        value={search}
-                        onChange={handleSearchChange}
-                        className="w-full rounded-xl border border-[#222] bg-[#0a0a0a] py-3.5 pl-12 pr-4 text-sm text-white outline-none transition-all placeholder:text-[#555] focus:border-[#444] focus:ring-1 focus:ring-[#333]"
-                    />
-                </div>
+            {/* Search + Filter Card */}
+            <div className="mb mt rounded-2xl border border-neutral-800 bg-neutral-900/60 backdrop-blur-xl p-6 shadow-lg shadow-black/20">
+                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 
-                <div className="relative sm:w-52">
+                    {/* Search */}
+                    <div className="relative w-full max-w-xl">
+                        <input
+                            type="text"
+                            placeholder="Search experts by name..."
+                            value={search}
+                            onChange={handleSearchChange}
+                            className="w-full rounded-2xl border border-neutral-700 bg-neutral-900/60 px-5 py-4 pl-12 text-base text-neutral-100 placeholder:text-neutral-500 backdrop-blur-md shadow-sm transition-all duration-200 outline-none hover:border-neutral-600 focus:border-white focus:bg-neutral-900 focus:ring-4 focus:ring-white/10"
+                        />
+                        <svg
+                            className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-neutral-400 transition-colors duration-200 group-focus-within:text-white"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        ></svg>
+                    </div>
+
+                    {/* Category Filter */}
                     <select
-                        id="category-filter"
                         value={category || "All Categories"}
                         onChange={handleCategoryChange}
-                        className="w-full cursor-pointer appearance-none rounded-xl border border-[#222] bg-[#0a0a0a] py-3.5 pl-4 pr-10 text-sm text-white outline-none transition-all focus:border-[#444] focus:ring-1 focus:ring-[#333]"
+                        className="w-full md:w-56 rounded-xl border border-neutral-800 bg-neutral-950 py-3 px-4 text-sm text-white outline-none transition-all focus:border-white focus:ring-1 focus:ring-white/20"
                     >
                         {CATEGORIES.map((cat) => (
                             <option key={cat} value={cat}>
@@ -163,41 +159,26 @@ const ExpertListing = () => {
                             </option>
                         ))}
                     </select>
-                    <svg
-                        className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#555]"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 9l-7 7-7-7"
-                        />
-                    </svg>
                 </div>
             </div>
 
+            {/* Results Info */}
             {!loading && !error && (
-                <div className="mb-6 flex items-center justify-between text-sm text-[#666]">
+                <div className="mb mt flex items-center justify-between text-sm text-neutral-500">
                     <span>
                         {total === 0
                             ? "No results"
-                            : `Showing ${(page - 1) * LIMIT + 1}–${Math.min(
-                                page * LIMIT,
-                                total
-                            )} of ${total} expert${total !== 1 ? "s" : ""}`}
+                            : `Showing ${(page - 1) * LIMIT + 1}–${Math.min(page * LIMIT, total)} of ${total} expert${total !== 1 ? "s" : ""}`}
                     </span>
+
                     {(search || category) && (
                         <button
-                            id="clear-filters"
                             onClick={() => {
                                 setSearch("");
                                 setCategory("");
                                 setPage(1);
                             }}
-                            className="rounded-lg border border-[#333] px-3 py-1.5 text-xs font-medium text-[#888] transition-all hover:border-[#555] hover:text-white"
+                            className="rounded-lg border border-neutral-800 px-3 py-1.5 text-xs font-medium text-neutral-500 transition-all hover:border-neutral-600 hover:text-white"
                         >
                             Clear filters
                         </button>
@@ -205,112 +186,74 @@ const ExpertListing = () => {
                 </div>
             )}
 
-            {loading && <LoadingSpinner text="Fetching experts…" />}
+            {/* Loading */}
+            {loading && (
+                <div className="flex justify-center py-20">
+                    <LoadingSpinner text="Fetching experts..." />
+                </div>
+            )}
 
+            {/* Error State */}
             {error && (
-                <div className="mx-auto max-w-md rounded-xl border border-red-500/30 bg-red-500/10 p-6 text-center">
-                    <svg
-                        className="mx-auto mb-3 h-8 w-8 text-red-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                    </svg>
-                    <p className="mb-4 text-sm text-red-400">{error}</p>
+                <div className="mx-auto max-w-md rounded-2xl border border-red-500/20 bg-red-500/5 p-8 text-center shadow-lg shadow-red-500/5">
+                    <p className="text-red-400 font-medium">{error}</p>
                     <button
-                        id="retry-btn"
                         onClick={() => {
                             const params = { page, limit: LIMIT };
                             if (search.trim()) params.search = search.trim();
                             if (category) params.category = category;
                             fetchExperts(params);
                         }}
-                        className="rounded-lg border border-red-500/40 bg-red-500/10 px-4 py-2 text-xs font-semibold text-red-400 transition-all hover:bg-red-500/20"
+                        className="mt-6 rounded-lg bg-red-500 px-5 py-2 text-sm font-semibold text-white transition-all hover:bg-red-600"
                     >
                         Try Again
                     </button>
                 </div>
             )}
 
+            {/* Empty State */}
             {!loading && !error && experts.length === 0 && (
                 <div className="py-20 text-center">
-                    <svg
-                        className="mx-auto mb-4 h-16 w-16 text-[#333]"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1.5}
-                            d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 3a4 4 0 100 8 4 4 0 000-8z"
-                        />
-                    </svg>
-                    <p className="text-lg font-medium text-[#555]">No experts found</p>
-                    <p className="mt-1 text-sm text-[#444]">
+                    <p className="text-xl font-semibold text-neutral-600">
+                        No experts found
+                    </p>
+                    <p className="mt-2 text-sm text-neutral-500">
                         Try adjusting your search or filter criteria.
                     </p>
                 </div>
             )}
 
+            {/* Experts Grid */}
             {!loading && !error && experts.length > 0 && (
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {experts.map((expert, i) => (
-                        <div
-                            key={expert._id}
-                            className="animate-fade-in"
-                            style={{ animationDelay: `${i * 60}ms` }}
-                        >
-                            <ExpertCard expert={expert} />
-                        </div>
+                    {experts.map((expert) => (
+                        <ExpertCard key={expert._id} expert={expert} />
                     ))}
                 </div>
             )}
 
+            {/* Pagination */}
             {!loading && !error && totalPages > 1 && (
-                <nav
-                    id="pagination"
-                    className="mt-12 flex items-center justify-center gap-2"
-                    aria-label="Pagination"
-                >
+                <nav className="mt-12 flex items-center justify-center gap-2">
                     <button
-                        id="prev-page"
                         onClick={() => goToPage(page - 1)}
                         disabled={page === 1}
-                        className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#222] bg-[#0a0a0a] text-sm text-[#888] transition-all hover:border-[#444] hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-[#222] disabled:hover:text-[#888]"
-                        aria-label="Previous page"
+                        className="h-10 px-4 rounded-lg border border-neutral-800 bg-neutral-900 text-sm text-neutral-400 transition-all hover:border-neutral-600 hover:text-white disabled:opacity-30"
                     >
-                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                        </svg>
+                        Previous
                     </button>
 
                     {getPageNumbers().map((p, i) =>
                         p === "..." ? (
-                            <span
-                                key={`dots-${i}`}
-                                className="flex h-10 w-10 items-center justify-center text-sm text-[#555]"
-                            >
-                                …
-                            </span>
+                            <span key={i} className="px-2 text-neutral-600">…</span>
                         ) : (
                             <button
                                 key={p}
-                                id={`page-${p}`}
                                 onClick={() => goToPage(p)}
-                                className={`flex h-10 w-10 items-center justify-center rounded-lg border text-sm font-medium transition-all ${p === page
-                                    ? "border-white/20 bg-white text-black"
-                                    : "border-[#222] bg-[#0a0a0a] text-[#888] hover:border-[#444] hover:text-white"
+                                className={`h-10 w-10 rounded-lg border text-sm font-medium transition-all ${p === page
+                                    ? "bg-white text-black border-white"
+                                    : "border-neutral-800 bg-neutral-900 text-neutral-400 hover:border-neutral-600 hover:text-white mt mb"
                                     }`}
-                                aria-current={p === page ? "page" : undefined}
-                                aria-label={`Page ${p}`}
                             >
                                 {p}
                             </button>
@@ -318,15 +261,11 @@ const ExpertListing = () => {
                     )}
 
                     <button
-                        id="next-page"
                         onClick={() => goToPage(page + 1)}
                         disabled={page === totalPages}
-                        className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#222] bg-[#0a0a0a] text-sm text-[#888] transition-all hover:border-[#444] hover:text-white disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-[#222] disabled:hover:text-[#888]"
-                        aria-label="Next page"
+                        className="h-10 px-4 rounded-lg border border-neutral-800 bg-neutral-900 text-sm text-neutral-400 transition-all hover:border-neutral-600 hover:text-white disabled:opacity-30"
                     >
-                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
+                        Next
                     </button>
                 </nav>
             )}
