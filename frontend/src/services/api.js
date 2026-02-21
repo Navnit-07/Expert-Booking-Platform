@@ -15,7 +15,7 @@ export const getExpertById = (id) => API.get(`/experts/${id}`);
 
 // ── Booking endpoints ──
 export const createBooking = (data) => API.post("/bookings", data);
-export const getBookings = () => API.get("/bookings");
+export const getBookings = (params = {}) => API.get("/bookings", { params });
 export const updateBookingStatus = (id, status) =>
     API.patch(`/bookings/${id}/status`, { status });
 
